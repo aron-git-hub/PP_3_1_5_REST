@@ -29,12 +29,26 @@ public class User {
     @Column(name = "second_name")
     private String secondName;
 
+    @NotEmpty(message = "Shouldn't be empty")
+    @Pattern(regexp = "^[a-zA-Z0-9]{3,12}$",
+            message = "3 to 12 length with no special characters")
+    @Column(name = "user_name")
+    private String userName;
+
+    @NotEmpty(message = "Shouldn't be empty")
+    @Pattern(regexp = "^[a-zA-ZЁёА-я0-9]{3,12}$",
+            message = "3 to 12 length")
+    @Column(name = "password")
+    private String password;
+
     public User() {
     }
 
-    public User(long id, byte age, String firstName, String secondName) {
+    public User(long id, byte age, String userName, String password, String firstName, String secondName) {
         this.id = id;
         this.age = age;
+        this.userName = userName;
+        this.password = password;
         this.firstName = firstName;
         this.secondName = secondName;
     }
@@ -69,5 +83,21 @@ public class User {
 
     public void setSecondName(String secondName) {
         this.secondName = secondName;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

@@ -4,8 +4,13 @@ body {
 }
 
 table, th, td {
-    border: thin solid whitesmoke;
+    border: thin solid #000000;
     text-align: center;
+}
+
+th {
+    padding: 5px 10px 5px 10px;
+    /*background-color: #00000F;*/
 }
 
 .er {

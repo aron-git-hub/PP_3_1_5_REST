@@ -9,6 +9,12 @@
 <h1>add user</h1>
 <form th:method="POST" th:action="@{/}" th:object="${user}">
     <div>
+        <label for="user_name">User name:</label>
+        <br/>
+        <input type="text" th:field="*{userName}" id="user_name" required/>
+        <div class="er" th:if="${#fields.hasErrors('userName')}" th:errors="*{user_name}"></div>
+    </div>
+    <div>
         <label for="first_name">First name:</label>
         <br/>
         <input type="text" th:charset="utf-8" th:field="*{firstName}" id="first_name" required/>
@@ -25,6 +31,12 @@
         <br/>
         <input type="text" th:field="*{age}" id="age" required/>
         <div class="er" th:if="${#fields.hasErrors('age')}" th:errors="*{age}"></div>
+    </div>
+    <div>
+        <label for="password">Password:</label>
+        <br/>
+        <input type="text" th:field="*{password}" id="password" required/>
+        <div class="er" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
     </div>
     <input type="submit" value="create"/>
     <input type="button" value="cancel" onclick="window.location.href='/'"/>

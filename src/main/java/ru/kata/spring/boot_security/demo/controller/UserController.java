@@ -1,9 +1,9 @@
 package ru.kata.spring.boot_security.demo.controller;
 
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.UserService;
@@ -19,45 +19,45 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping()
+    @GetMapping("/view")
     public String index(Model model) {
         List<User> users = userService.getAllUsers();
         model.addAttribute("users", users);
-        return "/view";
+        return "admin/view";
     }
 
     @GetMapping("/add")
     public String add(@ModelAttribute("user") User user) {
-        return "/add";
+        return "admin/add";
     }
 
     @PostMapping()
     public String saveUser(@ModelAttribute("user") @Valid User user, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return "/add";
+            return "admin/add";
         }
         userService.addUser(user);
-        return "redirect:/";
+        return "redirect:/view";
     }
 
     @GetMapping("/user_{id}/edit")
     public String edit(@PathVariable("id") Long id, Model model) {
         model.addAttribute("user", userService.getUserById(id));
-        return "/edit";
+        return "admin/edit";
     }
 
     @PatchMapping("/user_{id}")
     public String update(@ModelAttribute("user") @Valid User user, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return "/edit";
+            return "admin/edit";
         }
         userService.updateUser(user);
-        return "redirect:/";
+        return "redirect:/view";
     }
 
     @DeleteMapping("/user_{id}")
     public String delete(@PathVariable("id") Long id) {
         userService.deleteUser(id);
-        return "redirect:/";
+        return "redirect:/view";
     }
 }

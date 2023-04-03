@@ -9,6 +9,12 @@
 <h1>edit user</h1>
 <form th:method="PATCH" th:action="@{/user_{id}(id=${user.getId()})}" th:object="${user}">
     <div>
+        <label for="user_name">User name:</label>
+        <br/>
+        <input type="text" th:field="*{userName}" id="user_name" required/>
+        <div th:if="${#fields.hasErrors('userName')}" th:errors="*{user_name}"></div>
+    </div>
+    <div>
         <label for="first_name">First name:</label>
         <br/>
         <input type="text" th:field="*{firstName}" id="first_name" required/>
@@ -26,8 +32,14 @@
         <input type="text" th:field="*{age}" id="age" required/>
         <div th:if="${#fields.hasErrors('age')}" th:errors="*{age}"></div>
     </div>
+    <div>
+        <label for="password">Password:</label>
+        <br/>
+        <input type="text" th:field="*{password}" id="password" required/>
+        <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
+    </div>
     <input type="submit" value="edit"/>
-    <input type="button" value="cancel" onclick="window.location.href='/'"/>
+    <input type="button" value="cancel" onclick="window.location.href='/view'"/>
 </form>
 </body>
 </html>
