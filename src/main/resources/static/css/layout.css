@@ -4,7 +4,7 @@ body {
 }
 
 table, th, td {
-    border: thin solid #000000;
+    border: thin solid darkgray;
     text-align: center;
 }
 

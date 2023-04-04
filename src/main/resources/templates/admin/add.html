@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>#add</title>
-    <link rel="stylesheet" th:href="@{/css/layout.css}"/>
+    <link rel="stylesheet" th:href="@{/static/css/layout.css}"/>
 </head>
 <body>
 <h1>add user</h1>
@@ -12,7 +12,7 @@
         <label for="user_name">User name:</label>
         <br/>
         <input type="text" th:field="*{userName}" id="user_name" required/>
-        <div class="er" th:if="${#fields.hasErrors('userName')}" th:errors="*{user_name}"></div>
+        <div class="er" th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></div>
     </div>
     <div>
         <label for="first_name">First name:</label>
