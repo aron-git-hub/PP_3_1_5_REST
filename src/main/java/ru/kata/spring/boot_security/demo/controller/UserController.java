@@ -19,6 +19,11 @@ public class UserController {
         this.userService = userService;
     }
 
+    @GetMapping("/index")
+    public String index2() {
+        return "/index";
+    }
+
     @GetMapping("/view")
     public String index(Model model) {
         List<User> users = userService.getAllUsers();
