@@ -2,9 +2,16 @@ package ru.kata.spring.boot_security.demo.model;
 
 import org.springframework.security.core.GrantedAuthority;
 
-import javax.persistence.*;
-import java.util.Objects;
 import java.util.Set;
+import java.util.Objects;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Entity;
+import javax.persistence.Column;
+import javax.persistence.ManyToMany;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.UniqueConstraint;
 
 @Entity
 @Table(name = "roles", uniqueConstraints = {
