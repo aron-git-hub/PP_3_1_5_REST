@@ -1,33 +1,30 @@
 package ru.kata.spring.boot_security.demo.model;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
+import java.util.Collection;
+import java.util.Set;
 
 @Entity
-@Table(name = "users")
-public class User {
-
+@Table(name = "users", uniqueConstraints = {
+        @UniqueConstraint(columnNames = "username")
+})
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    @Column(name = "id")
+    private Long id;
 
     @NotEmpty(message = "Shouldn't be empty")
     @Pattern(regexp = "^[a-zA-Z0-9]{3,12}$",
             message = "3 to 12 length with no special characters")
-    @Column(name = "user_name")
-    private String userName;
-
-    @NotEmpty(message = "Shouldn't be empty")
-    @Pattern(regexp = "^[a-zA-ZЁёА-я0-9]{3,12}$",
-            message = "3 to 12 length")
-    @Column(name = "password")
-    private String password;
-
-    @Min(value = 1, message = "Should be greater than 0")
-    @Column(name = "age")
-    private byte age;
+    @Column(name = "username")
+    private String username;
 
     @NotEmpty(message = "Shouldn't be empty")
     @Pattern(regexp = "^[a-zA-ZЁёА-я]{3,12}$",
@@ -41,16 +38,29 @@ public class User {
     @Column(name = "second_name")
     private String secondName;
 
+    @Min(value = 1, message = "Should be greater than 0")
+    @Column(name = "age")
+    private int age;
+
+    @NotEmpty(message = "Shouldn't be empty")
+    @Column(name = "password")
+    private String password;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles;
+
     public User() {
     }
 
-    public User(long id, String userName, String password, byte age, String firstName, String secondName) {
-        this.id = id;
-        this.userName = userName;
-        this.password = password;
-        this.age = age;
+    public User(String username, String firstName, String secondName, byte age, String password, Set<Role> roles) {
+        this.username = username;
         this.firstName = firstName;
         this.secondName = secondName;
+        this.age = age;
+        this.password = password;
+        this.roles = roles;
     }
 
     public long getId() {
@@ -61,12 +71,13 @@ public class User {
         this.id = id;
     }
 
-    public byte getAge() {
-        return age;
+    @Override
+    public String getUsername() {
+        return username;
     }
 
-    public void setAge(byte age) {
-        this.age = age;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getFirstName() {
@@ -85,19 +96,53 @@ public class User {
         this.secondName = secondName;
     }
 
-    public String getUserName() {
-        return userName;
+    public int getAge() {
+        return age;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setAge(int age) {
+        this.age = age;
     }
 
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return roles;
+    }
+
+    @Override
     public String getPassword() {
         return password;
     }
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }

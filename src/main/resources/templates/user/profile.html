@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <title>#profile</title>
+    <link rel="stylesheet" th:href="@{/css/layout.css}"/>
+</head>
+<body>
+<div sec:authorize="isAuthenticated()">
+    <div>
+        <span th:text="${currentUser.getUsername()}">#username</span>
+    </div>
+</div>
+<table>
+    <tr>
+        <td>Username</td>
+        <td th:text="${currentUser.getUsername()}">
+        </td>
+    </tr>
+    <tr>
+        <td>Password</td>
+        <td th:text="${currentUser.getPassword()}">
+    </tr>
+    <tr>
+        <td>First name</td>
+        <td th:text="${currentUser.getFirstName()}">
+    </tr>
+    <tr>
+        <td>Second name</td>
+        <td th:text="${currentUser.getSecondName()}">
+    </tr>
+    <tr>
+        <td>Age</td>
+        <td th:text="${currentUser.getAge()}">
+    </tr>
+</table>
+<form th:action="@{/logout}" th:method="POST">
+    <input type="submit" value="logout"/>
+</form>
+</body>
+</html>

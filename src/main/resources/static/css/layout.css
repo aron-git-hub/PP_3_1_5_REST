@@ -10,9 +10,8 @@ table, th, td {
 
 th {
     padding: 5px 10px 5px 10px;
-    background-color: #777777;
 }
 
-.er {
-    color: brown;
+input {
+    font-variant-caps: small-caps;
 }

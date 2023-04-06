@@ -1,12 +1,11 @@
 package ru.kata.spring.boot_security.demo.dao;
 
-import org.springframework.stereotype.Repository;
 import ru.kata.spring.boot_security.demo.model.User;
+import javax.persistence.*;
+import org.springframework.stereotype.Repository;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class UserDaoImp implements UserDao {
@@ -14,13 +13,13 @@ public class UserDaoImp implements UserDao {
     private EntityManager entityManager;
 
     @Override
-    public List<User> getAllUsers() {
-        return entityManager.createQuery("select u from User u", User.class).getResultList();
+    public void addUser(User user) {
+        entityManager.persist(user);
     }
 
     @Override
-    public void addUser(User user) {
-        entityManager.persist(user);
+    public List<User> getAllUsers() {
+        return entityManager.createQuery("select u from User u", User.class).getResultList();
     }
 
     @Override
@@ -28,6 +27,13 @@ public class UserDaoImp implements UserDao {
         TypedQuery<User> query = entityManager.createQuery("select u from User u where id = :id", User.class)
                 .setParameter("id", id);
         return query.getSingleResult();
+    }
+
+    @Override
+    public Optional<User> getUserByUsername(String username) {
+        TypedQuery<User> query = entityManager.createQuery("select u from User u join fetch u.roles where u.username = :username", User.class)
+                .setParameter("username", username);
+        return query.getResultList().stream().findFirst();
     }
 
     @Override

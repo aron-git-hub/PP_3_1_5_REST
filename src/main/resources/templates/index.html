@@ -1,12 +1,22 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
-    <title>Spring Security Example</title>
+    <title>#index</title>
     <link rel="stylesheet" th:href="@{/css/layout.css}"/>
 </head>
 <body>
-<h1>Welcome to Index PAGE!</h1>
-
-
+<div sec:authorize="isAuthenticated()">
+    <div>
+        <span sec:authentication="name">#username</span>
+    </div>
+    <input type="button" value="account" onclick="window.location.href='/user'"/>
+    <form th:action="@{/logout}" th:method="POST">
+        <input type="submit" value="logout"/>
+    </form>
+</div>
+<div sec:authorize="isAnonymous()">
+    <input type="button" value="sign in" onclick="window.location.href='/user'">
+</div>
 </body>
 </html>
