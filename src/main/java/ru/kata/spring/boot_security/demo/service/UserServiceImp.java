@@ -6,10 +6,12 @@ import ru.kata.spring.boot_security.demo.model.User;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional(readOnly = true)
 public class UserServiceImp implements UserService {
     private final UserDao userDao;
     private final RoleService roleService;
@@ -29,19 +31,16 @@ public class UserServiceImp implements UserService {
         userDao.addUser(user);
     }
 
-    @Transactional(readOnly = true)
     @Override
     public List<User> getAllUsers() {
         return userDao.getAllUsers();
     }
 
-    @Transactional(readOnly = true)
     @Override
     public User getUserById(Long id) {
         return userDao.getUserById(id);
     }
 
-    @Transactional(readOnly = true)
     @Override
     public Optional<User> getUserByUsername(String username) {
         return userDao.getUserByUsername(username);
@@ -61,7 +60,6 @@ public class UserServiceImp implements UserService {
         userDao.updateUser(user);
     }
 
-    @Transactional(readOnly = true)
     @Override
     public void setUserRoles(User user) {
         user.setRoles(user.getRoles().stream()

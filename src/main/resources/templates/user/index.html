@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Profile page</title>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row"><!--HEADER -->
+        <nav class="navbar bg-dark">
+            <div class="float-start text-light fw-bold p-2">
+                <span th:text="${currentUser.getUsername().toUpperCase()}">#username</span>
+                with roles: <span th:each="authority :${currentUser.getAuthorities()}"
+                                  th:text="${authority.getAuthority().toString().substring(5)}">#authorities</span>
+            </div>
+            <div class="float-end text-light fw-bold p-2">
+                <form th:action="@{/logout}" th:method="POST">
+                    <input class="btn btn-dark text-secondary" type="submit" value="Logout"/>
+                </form>
+            </div>
+        </nav>
+    </div><!--/ HEADER -->
+    <div class="row vh-100">
+        <div class="col-2 bg-light border gx-0"><!--SIDEBAR -->
+            <nav class="nav flex-column nav-pills">
+                <a class="nav-link" href="/admin" sec:authorize="hasRole('ADMIN')">Admin</a>
+                <a class="nav-link active" href="/user">User</a>
+            </nav>
+        </div><!--/ SIDEBAR -->
+        <div class="col-10 bg-light"><!--CONTENT-->
+            <h1>User information page</h1>
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">About user</h4>
+                </div>
+                <div class="card-body">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Username</th>
+                            <th scope="col">First name</th>
+                            <th scope="col">Second name</th>
+                            <th scope="col">Age</th>
+                            <th scope="col">Roles</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <th scope="row" th:text="${currentUser.getId()}"></th>
+                            <td th:text="${currentUser.getUsername()}"></td>
+                            <td th:text="${currentUser.getFirstName()}"></td>
+                            <td th:text="${currentUser.getSecondName()}"></td>
+                            <td th:text="${currentUser.getAge()}"></td>
+                            <td>
+                                <th:block th:each="authority : ${currentUser.getAuthorities()}"
+                                          th:text="${' ' + authority.getAuthority().toString().substring(5)}">
+                                </th:block>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div><!--/ CONTENT-->
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js">
+</script>
+</body>
+</html>
