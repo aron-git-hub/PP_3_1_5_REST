@@ -48,19 +48,7 @@
                             <th scope="col">Roles</th>
                         </tr>
                         </thead>
-                        <tbody>
-                        <tr>
-                            <th scope="row" th:text="${currentUser.getId()}"></th>
-                            <td th:text="${currentUser.getUsername()}"></td>
-                            <td th:text="${currentUser.getFirstName()}"></td>
-                            <td th:text="${currentUser.getSecondName()}"></td>
-                            <td th:text="${currentUser.getAge()}"></td>
-                            <td>
-                                <th:block th:each="authority : ${currentUser.getAuthorities()}"
-                                          th:text="${' ' + authority.getAuthority().toString().substring(5)}">
-                                </th:block>
-                            </td>
-                        </tr>
+                        <tbody id = "user-info">
                         </tbody>
                     </table>
                 </div>
@@ -68,7 +56,9 @@
         </div><!--/ CONTENT-->
     </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js">
-</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+<script th:src="@{/js/userInfo.js}"></script>
 </body>
 </html>
